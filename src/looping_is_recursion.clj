@@ -28,7 +28,6 @@
     (= (first seq1) (first seq2)) (recur (rest seq1) (rest seq2))
     :else false))
 
-
 (defn find-first-index [pred a-seq]
   (loop [acc 0
          func pred
@@ -78,4 +77,10 @@
           :else (recur target (inc current) n-one (+ n n-one)))))
 
 (defn cut-at-repetition [a-seq]
-  [":("])
+  (loop [ src a-seq
+          index 0
+          vals #{}]
+    (cond
+      (empty? src) a-seq
+      (contains? vals (first src)) (take index a-seq)
+      :else (recur (rest src) (inc index) (conj vals (first src))))))
